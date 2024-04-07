@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 import sys
-from math import sqrt
+from math import sqrt, floor
 
 def is_prime(n):
     if n < 2:
@@ -12,11 +12,10 @@ def is_prime(n):
     return True
 
 def factor(n):
-    for i in range(2, int(sqrt(n)) + 1):
+    for i in range(2, floor(sqrt(n)) + 1):
         if n % i == 0:
             j = n // i
-            if is_prime(i) or is_prime(j):
-                return (i, j)
+            return (i, j)
     return (n, 1)
 
 if __name__ == "__main__":
@@ -26,7 +25,7 @@ if __name__ == "__main__":
 
     try:
         with open(sys.argv[1], "r") as file:
-            numbers = [int(line.strip()) for line in file.readlines()]
+            numbers = [int(line.strip()) for line in file.readlines() if line.strip()]
     except (FileNotFoundError, ValueError):
         print(f"Error: Invalid file or contents in {sys.argv[1]}")
         sys.exit(1)
