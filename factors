@@ -40,9 +40,11 @@ def factor(n):
         n //= 2
 
     p = 3
-    max_time = 4.9  # Limiting factorization to 4.9 seconds
     start_time = time.time()
-    while p <= math.isqrt(n) and time.time() - start_time < max_time:
+    max_time = 5.0  # Maximum time allowed for factorization
+    while p <= math.isqrt(n):
+        if time.time() - start_time > max_time:
+            break
         if n % p == 0:
             factors.append(p)
             n //= p
