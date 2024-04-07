@@ -1,26 +1,36 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
 
-from sys import argv
+import sys
 from math import sqrt
 
+def is_prime(n):
+    if n < 2:
+        return False
+    for i in range(2, int(sqrt(n)) + 1):
+        if n % i == 0:
+            return False
+    return True
 
-def factor():
-    with open(argv[1]) as f:
-        for line in f:
-            num = int(line)
-            print("{:d}=".format(num), end="")
-            if num % 2 == 0:
-                print("{}*2".format(num//2))
-                continue
-            sqn = int(sqrt(num))
-            if sqn % 2 == 0:
-                sqn += 1
-            for i in range(3, sqn + 1, 2):
-                if num % i == 0:
-                    print("{}*{}".format(i, num//i))
-                    break
-            if num % i != 0:
-                print("{}={}*1".format(num, num))
+def factor(n):
+    for i in range(2, int(sqrt(n)) + 1):
+        if n % i == 0:
+            j = n // i
+            if is_prime(i) or is_prime(j):
+                return (i, j)
+    return (n, 1)
 
+if __name__ == "__main__":
+    if len(sys.argv) != 2:
+        print(f"Usage: {sys.argv[0]} <file>")
+        sys.exit(1)
 
-factor()
+    try:
+        with open(sys.argv[1], "r") as file:
+            numbers = [int(line.strip()) for line in file.readlines()]
+    except (FileNotFoundError, ValueError):
+        print(f"Error: Invalid file or contents in {sys.argv[1]}")
+        sys.exit(1)
+
+    for n in numbers:
+        p, q = factor(n)
+        print(f"{n}={p}*{q}")
