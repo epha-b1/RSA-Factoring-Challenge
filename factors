@@ -1,33 +1,47 @@
 #!/usr/bin/python3
-"""Module that factorize as many numbers as possible
- into a product of two smaller numbers."""
-from sys import argv
+"""Module that factorise all numbers it should into a product of two smaller numbers."""
+
+import sys
+import time
+import math
+
+def factorize_number(num):
+    factors = []
+    divisor = 2
+
+    while num > 1:
+        if num % divisor == 0:
+            factors.append(str(divisor))
+            num //= divisor
+
+        else:
+            divisor += 1
+
+    return '*'.join(factors)
+""""print out a simple decomposition of an integer """
 
 
-def factorize(value):
-    """"print a simple descomposition of an integer > 1"""
-    i = 2
-
-    if value < 2:
+def main():
+    if len(sys.argv) != 2:
+        print("Usage: python3 factors.py <filename>")
         return
-    print()
-    print(value, "<- value-bef")
-    while value % i:
-        i += 1
-    print("{:.0f}={:.0f}*{:.0f}".format(value, value / i, i))
-    print(value, "<- value-aft")
-    print()
 
-if len(argv) != 2:
-    exit()
+    filename = sys.argv[1]
 
-try:
-    with open(argv[1]) as file:
-        line = file.readline()
+    try:
+        with open(filename, 'r') as file:
+            for line in file:
+                number = int(line.strip())
+                factorization = factorize_number(number)
+                print(f"{number}={factorization}")
 
-        while line != "":
-            value = int(line.split('\n')[0])
-            factorize(value)
-            line = file.readline()
-except:
-    pass
+    except FileNotFoundError:
+        print(f"File '{filename}' not found.")
+    except ValueError:
+        print("Invalid format. file must contains only natural numbers.")
+    except Exception as e:
+        print("An error occurred:", str(e))
+
+
+if __name__ == "__main__":
+    main()
