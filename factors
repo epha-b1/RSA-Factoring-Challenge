@@ -73,10 +73,6 @@ if __name__ == "__main__":
 
     for n in numbers:
         factors = factor(n)
-        p = q = 1
-        for f in factors:
-            if p == 1:
-                p = f
-            else:
-                q *= f
+        p = factors[0]
+        q = n // p
         print(f"{n}={p}*{q}")
