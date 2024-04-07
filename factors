@@ -23,7 +23,7 @@ def factorize_number(num):
 
 def main():
     if len(sys.argv) != 2:
-        print("Usage: python3 factors.py <filename>")
+        print("Usage: python3 factors <filename>")
         return
 
     filename = sys.argv[1]
